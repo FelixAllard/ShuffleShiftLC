@@ -18,13 +18,23 @@ namespace ShuffleShift.ActiveObject
         private bool isInsideFactory;
         private bool isInHangarShipRoom;
 
-        private void Awake()
+        private IEnumerator ActivationCoroutine()
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(Plugin.ShuffleShiftConfig.TIME_BETWEEN_SWAP.Value);
+                ActivateSwap();
+            }
+        }
+
+        private void Start()
         {
             if (Plugin.ShuffleShiftConfig.ENABLE_POSITION_SWAP.Value)
             {
-                InvokeRepeating("ActivateSwap", Plugin.ShuffleShiftConfig.TIME_BEFORE_FIRST_SWAP.Value, Plugin.ShuffleShiftConfig.TIME_BETWEEN_SWAP.Value);
+                StartCoroutine(ActivationCoroutine());
             }
         }
+
 
         public void ActivateSwap()
         {
@@ -37,7 +47,9 @@ namespace ShuffleShift.ActiveObject
                 Plugin.Logger.LogInfo("Teleport was a miss!");
             }
         }
-        private void OnDestroy()
+        
+
+        public override void OnDestroy()
         {
             StopAllCoroutines();
             CancelInvoke("ShufflePlayerTransforms");

@@ -5,12 +5,12 @@ schemaVersion = "0.0.1"
 repository = "https://thunderstore.io"
 
 [package]
-description = "A mod that swap the position of each player every certain ammount of time!"
+description = "A mod that swap the position of each player every certain ammount of time! Modify the configs and take on the challenge!"
 websiteUrl = "https://github.com/FelixAllard/ShuffleShiftLC"
 containsNsfwContent = false
 [package.dependencies]
 BepInEx-BepInExPack = "5.4.2100"
-TheWeavers-LethalBestiary = "1.2.1"
+xilophor-StaticNetcodeLib = "1.0.3"
 
 [build]
 icon = "./icon.png"
