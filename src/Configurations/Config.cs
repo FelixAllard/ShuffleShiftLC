@@ -12,6 +12,7 @@ public class Config : SyncedInstance<Config>
     public ConfigEntry<float> TIME_BETWEEN_SWAP { get; private set; } 
     public ConfigEntry<float> TIME_BEFORE_FIRST_SWAP { get; private set; } 
     public ConfigEntry<int> CHANCE_FOR_SWAP_TO_HAPPEN { get; private set; } 
+    public ConfigEntry<bool> ENABLE_SCREEN_SHAKE { get; private set; } 
 
     
     public Config(ConfigFile cfg)
@@ -26,9 +27,12 @@ public class Config : SyncedInstance<Config>
         TIME_BEFORE_FIRST_SWAP = cfg.Bind("Position Swap", "Time before the first swap", 30f,
             "Time before the first swap occurs"
         );
-        CHANCE_FOR_SWAP_TO_HAPPEN = cfg.Bind("Position Swap", "Chance of the swap happening", 70,
+        CHANCE_FOR_SWAP_TO_HAPPEN = cfg.Bind("Position Swap", "Chance of the swap happening", 100,
             "Chance in percentage for the position swap to happen. Must not be lower than 0"
             );
+        ENABLE_SCREEN_SHAKE = cfg.Bind("Position Swap", "Make the screen shake when teleporting", true,
+            "true the screen shake will be, false, it will not"
+        );
 
     }
     public static void RequestSync() {

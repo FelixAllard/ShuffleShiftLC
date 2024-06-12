@@ -11,6 +11,7 @@ using ShuffleShift.Patches;
 
 namespace ShuffleShift {
     [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
+    [BepInDependency(StaticNetcodeLib.StaticNetcodeLib.Guid, BepInDependency.DependencyFlags.HardDependency)]
     public class Plugin : BaseUnityPlugin {
         internal static new ManualLogSource Logger = null!;
         public static AssetBundle? ModAssets;

@@ -14,7 +14,7 @@ internal class RoundManagerPatch
     {
         if (SwapPositionHandler.Instance != null)
         {
-            SwapPositionHandler.Instance.DestroyManagerClientRpc();
+            SwapPositionHandler.Instance.DestroyManager();
         }
     }
     [HarmonyPatch(nameof(RoundManager.BeginEnemySpawning))]
@@ -23,6 +23,7 @@ internal class RoundManagerPatch
     {
         if (SwapPositionHandler.Instance == null)
         {
+            
             GameObject manager = new GameObject("ShuffleSwapHandler");
             manager.AddComponent<SwapPositionHandler>();
         }
