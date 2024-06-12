@@ -30,7 +30,7 @@ public class Config : SyncedInstance<Config>
         CHANCE_FOR_SWAP_TO_HAPPEN = cfg.Bind("Position Swap", "Chance of the swap happening", 100,
             "Chance in percentage for the position swap to happen. Must not be lower than 0"
             );
-        ENABLE_SCREEN_SHAKE = cfg.Bind("Position Swap", "Make the screen shake when teleporting", true,
+        ENABLE_SCREEN_SHAKE = cfg.Bind("Position Swap", "Make the screen shake when teleporting", false,
             "true the screen shake will be, false, it will not"
         );
 

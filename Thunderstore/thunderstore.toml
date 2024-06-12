@@ -18,8 +18,8 @@ readme = "./README.md"
 outdir = "./Packages"
 
 [[build.copy]]
-source = "../bin/Release/netstandard2.1/TheWeavers.SuffleShift.dll"
-target = "plugins/SCP1507/"
+source = "../bin/Release/netstandard2.1/TheWeavers.ShuffleShift.dll"
+target = "plugins/ShuffleShift/"
 
 
 [[build.copy]]
