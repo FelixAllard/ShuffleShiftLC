@@ -20,8 +20,10 @@ namespace ShuffleShift {
         private void Awake() {
             Logger = base.Logger;
             ShuffleShiftConfig = new(base.Config);
+            Logger.LogInfo("Loading : " + PluginInfo.PLUGIN_GUID + " Version : " + PluginInfo.PLUGIN_VERSION);
             harmony.PatchAll(typeof(ConfigurationsPatch));
             harmony.PatchAll(typeof(RoundManagerPatch));
+            Logger.LogInfo("Patch applied and ready to play!");
         }
     }
 }
