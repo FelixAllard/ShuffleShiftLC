@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace ShuffleShift.ActiveObject
 {
-    public class SwapPositionHandler : NetworkBehaviour
+    public class SwapPositionHandler : MonoBehaviour
     {
         private static SwapPositionHandler _instance;
         public static SwapPositionHandler Instance => _instance;
@@ -17,6 +17,7 @@ namespace ShuffleShift.ActiveObject
         private int indexOfPick;
         private bool isInsideFactory;
         private bool isInHangarShipRoom;
+        public Coroutine swapCoroutine;
 
         private IEnumerator ActivationCoroutine()
         {
@@ -27,11 +28,26 @@ namespace ShuffleShift.ActiveObject
             }
         }
 
+        private void Awake()
+        {
+            // Check if an instance already exists
+            if (_instance != null && _instance != this)
+            {
+                // If an instance already exists, destroy this game object
+                Destroy(this.gameObject);
+                return;
+            }
+            // If no instance exists, set this as the instance
+            _instance = this;
+        }
         private void Start()
         {
             if (Plugin.ShuffleShiftConfig.ENABLE_POSITION_SWAP.Value)
             {
-                StartCoroutine(ActivationCoroutine());
+                if (RoundManager.Instance.IsHost)
+                {
+                    swapCoroutine = StartCoroutine(ActivationCoroutine());
+                }
             }
         }
 
@@ -49,14 +65,15 @@ namespace ShuffleShift.ActiveObject
         }
         
 
-        public override void OnDestroy()
+        public void OnDestroy()
         {
-            StopAllCoroutines();
-            CancelInvoke("ShufflePlayerTransforms");
+            StopCoroutine(swapCoroutine);
         }
 
         public void DestroyManager()
         {
+            enabled = false;
+            StopCoroutine(swapCoroutine);
             Destroy(this.gameObject);
         }
     }

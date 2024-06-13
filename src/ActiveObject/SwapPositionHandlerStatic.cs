@@ -13,7 +13,10 @@ namespace ShuffleShift.ActiveObject
         private static bool isInsideFactory;
         private static bool isInHangarShipRoom;
         private static int indexOfPick;
+        private const float Y_OFFSET = 1f;
+        //public static SwapPositionHandler Instance;
         
+        // Adjust this value as needed
 
         public static void ShufflePlayerTransforms()
         {
@@ -32,6 +35,12 @@ namespace ShuffleShift.ActiveObject
             FinalizeTeleportClientRpc(possibleIndex, positions.ToArray(), rotations.ToArray());
         }
 
+        /*public static void SetInstance(SwapPositionHandler swapPositionHandler)
+        {
+            Instance.DestroyManager();
+            Instance = swapPositionHandler;
+        }*/
+
         [ClientRpc]
         private static void FinalizeTeleportClientRpc(int[] indexes, Vector3[] positions, Quaternion[] rotations)
         {
@@ -46,19 +55,22 @@ namespace ShuffleShift.ActiveObject
                 {
                     // Teleport player
                     var transform = player.transform;
+                    
+                    positions[i].y += Y_OFFSET;
                     transform.position = positions[i];
                     transform.rotation = rotations[i];
 
                     // Update player state
                     player.isInHangarShipRoom = isInsideFactory;
                     player.isInHangarShipRoom = isInHangarShipRoom;
+                    
                 }
             }
     
             // Shake camera for local player
             if (Plugin.ShuffleShiftConfig.ENABLE_SCREEN_SHAKE.Value)
             {
-                HUDManager.Instance.ShakeCamera(ScreenShakeType.Big);
+                HUDManager.Instance.DisplayTip("SWAP", $"{indexes.Length} players position got swapped!");
             }
         }
 
@@ -66,7 +78,11 @@ namespace ShuffleShift.ActiveObject
         private static List<PlayerControllerB> GetAllPlayer()
         {
             return RoundManager.Instance.playersManager.allPlayerScripts
-                .Where(player => player.isPlayerControlled && !player.isPlayerDead && !player.isClimbingLadder)
+                .Where(player => 
+                    player.isPlayerControlled && 
+                    !player.isPlayerDead && 
+                    !player.isClimbingLadder && 
+                    !player.inTerminalMenu)
                 .ToList();
         }
 
